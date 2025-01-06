@@ -23,25 +23,24 @@ public class UserController {
     /*@PutMapping("update")
     public String update(@RequestBody @Valid UpdateUserRequest request) {
         userService.update(request);
-        return "Güncelleme İşlemi Başarılı";
+        return "Update Process Successful";
     }*/
 
     @PutMapping("/update")
     public String update(@RequestHeader("Authorization") String token, @RequestBody @Valid UpdateUserRequest request) {
-        int userId = jwtService.extractUserId(token.substring(7)); // Token'dan kullanıcı ID'sini çıkarma
-        request.setId(userId); // Kullanıcı ID'sini request'e set etme
+        int userId = jwtService.extractUserId(token.substring(7));
+        request.setId(userId);
         userService.update(request);
-        return "Güncelleme İşlemi Başarılı";
+        return "Update Process Successful";
     }
 
 
     @GetMapping("/profile")
     public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization") String token) {
-        String email = jwtService.extracthUserName(token.substring(7)); // Token'dan email çıkarma işlemi
+        String email = jwtService.extracthUserName(token.substring(7));
         Optional<User> user = userService.getUserByEmail(email);
         return user.map(ResponseEntity::ok).orElseGet(() -> {
             return ResponseEntity.notFound().build();
         });
-        //TODO:EMAİL YERİNE İD'DEN TOKEN KONTROLÜ YAPTIRABİLİRİZ!!
     }
 }

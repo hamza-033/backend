@@ -21,13 +21,13 @@ public class HotelController {
     @PostMapping("createhotel")
     public String add(@RequestBody @Valid AddHotelRequest request){
         hotelService.add(request);
-        return "Hotel Başarıyla Eklendi.";
+        return "Hotel Added Successfully.";
     }
 
     @PutMapping("updateHotel")
     public String update(@RequestBody @Valid UpdateHotelRequest request){
         hotelService.update((request));
-        return "Hotel Başarıyla Güncellendi";
+        return "Hotel Updated Successfully";
     }
 
     @GetMapping("hotellist")

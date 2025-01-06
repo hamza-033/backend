@@ -19,7 +19,7 @@ public class HotelAddressController {
     @PostMapping("addHotelAddress")
     public String add(@Valid @RequestBody AddHotelAddressRequest request){
         hotelAddressService.add(request);
-        return "Hotel Adresi Başarıyla Eklendi";
+        return "Hotel Address Added Successfully";
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -31,7 +31,7 @@ public class HotelAddressController {
     @PutMapping("updateHotelAddress")
     public String update(@RequestBody @Valid UpdateHotelAddressRequest request){
         hotelAddressService.update(request);
-        return "Otel Adresi Güncellendi";
+        return "Hotel Address Updated";
     }
 
 }

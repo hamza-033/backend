@@ -27,7 +27,7 @@ public class Support {
     @Enumerated(EnumType.STRING)
     private DemandStatus demandStatus;
 
-    @ManyToOne //FK
+    @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
 }

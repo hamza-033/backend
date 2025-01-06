@@ -22,13 +22,13 @@ public class RoomController {
     @PostMapping("addRoom")
     public String add(@RequestBody @Valid AddRoomRequest request){
         roomService.add(request);
-        return "Oda Başarıyla Oluşturuldu";
+        return "Room Created Successfully";
     }
 
     @PutMapping("updateRoom")
     public String update(@RequestBody @Valid UpdateRoomRequest request){
         roomService.update(request);
-        return "Oda Başarıyla Güncellendi";
+        return "Room Updated Successfully";
     }
 
     @GetMapping("/available-rooms")

@@ -31,7 +31,7 @@ public class Notification {
     @Enumerated(EnumType.STRING)
     private NotificationStatus notificationStatus;
 
-    @ManyToOne //FK
+    @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
 

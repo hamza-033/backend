@@ -18,6 +18,6 @@ public class PaymentController {
     @PostMapping
     public String add(@Valid @RequestBody AddPaymentRequest addPaymentRequest){
         paymentService.add(addPaymentRequest);
-        return "Ödeme Başarılı Rezervasyon Onaylandı!";
+        return "Payment Successful Reservation Confirmed!";
     }
 }

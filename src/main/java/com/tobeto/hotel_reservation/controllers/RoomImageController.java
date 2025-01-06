@@ -17,7 +17,7 @@ public class RoomImageController {
     @PostMapping("roomImage")
     public String add(@RequestBody @Valid AddRoomImageRequest request){
         roomImageService.add(request);
-        return "Room Image Başarıyla Yüklendi";
+        return "Room Image Uploaded Successfully";
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

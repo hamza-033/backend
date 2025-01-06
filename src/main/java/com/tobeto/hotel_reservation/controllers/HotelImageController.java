@@ -19,7 +19,7 @@ public class HotelImageController {
     @PostMapping("addImage")
     public String add(@RequestBody @Valid AddHotelImageRequest request){
     hotelImageService.add(request);
-    return "Hotel Image Başarıyla Yüklendi";
+    return "Hotel Image Uploaded Successfully";
     }*/
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -28,7 +28,7 @@ public class HotelImageController {
         AddHotelImageRequest request = new AddHotelImageRequest();
         request.setHotelId(hotelId);
         hotelImageService.add(request, file);
-        return ResponseEntity.ok("Hotel resmi başarıyla eklendi.");
+        return ResponseEntity.ok("Hotel image added successfully.");
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

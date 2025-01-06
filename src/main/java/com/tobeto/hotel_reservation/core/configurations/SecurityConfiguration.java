@@ -26,7 +26,6 @@ public class SecurityConfiguration {
     private final UserService2 userService2;
     private final JwtFilter jwtFilter;
 
-    //TODO:LİNKLER İÇİN ERİŞİM LİSTELERİ HAZIRLAMA
 
    @Bean
     public PasswordEncoder passwordEncoder(){

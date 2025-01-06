@@ -23,11 +23,11 @@ public class UserAddress {
     private String addressText;
 
     @JsonIgnore
-    @ManyToOne //FK
+    @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToOne //FK
+    @ManyToOne
     @JoinColumn(name = "districtId")
     private District district;
 

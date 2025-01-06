@@ -18,7 +18,7 @@ public class UserAddressController {
     @PostMapping("addUserAddress")
     public String add(@RequestBody @Valid AddUserAddressRequest request){
         userAddressService.add(request);
-        return "Kullanıcı Adresi başarıyle eklendi.";
+        return "User Address added successfully.";
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -30,6 +30,6 @@ public class UserAddressController {
     @PutMapping("updateUserAddress")
     public String update(@RequestBody @Valid UpdateUserAddressRequest request){
         userAddressService.update(request);
-        return "Kullanıcı Adresi Başarıyla Güncellendi";
+        return "User Address Updated Successfully";
     }
 }

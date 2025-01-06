@@ -32,14 +32,13 @@ public class JwtService {
             .compact();
     }
 
-    //İmza Anahtarı
+
     public Key getSignKey(){
         byte[] keyBytes= Decoders.BASE64URL.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
     //
 
-    //Token Doğrulama Kontrolü
     private Claims getClaimsFromToken(String token){
         SecretKey Key=(SecretKey) getSignKey();
         return Jwts

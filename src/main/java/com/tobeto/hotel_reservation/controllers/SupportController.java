@@ -21,13 +21,13 @@ public class SupportController {
     @PostMapping("addSupport")
     public String add(@Valid @RequestBody AddSupportRequest request){
         supportService.add((request));
-        return "Talep İletildi";
+        return "Request Submitted";
     }
 
     @PutMapping("updateSupport")
     public String update(@Valid @RequestBody UpdateSupportRequest request){
         supportService.update(request);
-        return "Talep Kapatıldı";
+        return "Request Closed";
     }
 
     @GetMapping("list/{userId}")

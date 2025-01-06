@@ -29,7 +29,7 @@ public class ReservationController {
     @PutMapping("updateReservation")
     public String update(@Valid @RequestBody UpdateReservationRequest request){
         reservationService.update(request);
-        return "Rezervasyon Durumu Başarıyla Güncellendi";
+        return "Reservation Status Updated Successfully";
     }
 
     @GetMapping("reservationlist")

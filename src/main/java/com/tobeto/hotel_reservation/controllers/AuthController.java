@@ -19,7 +19,7 @@ public class AuthController {
     @PostMapping("register")
     public String register(@RequestBody @Valid RegisterRequest request){
         authService.register(request);
-        return "Kayıt olma işlemi Başarılı";
+        return "Registration Successful";
     }
 
     @PostMapping("login")

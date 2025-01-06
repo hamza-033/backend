@@ -22,7 +22,7 @@ public class GuestInformationController {
         for (AddGuestInformationRequest request : requests) {
             guestInformationService.add(request);
         }
-        return "Misafirler başarıyla eklendi.";
+        return "Guests added successfully.";
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

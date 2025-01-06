@@ -17,6 +17,6 @@ public class ResponseToFeedbackController {
     @PostMapping("addResponseToFeedback")
     public String add(@Valid @RequestBody AddResponseToFeedbackRequest request){
         responseToFeedbackService.add(request);
-        return "Feedback Response Başarıyla Oluşturuldu.";
+        return "Feedback Response Created Successfully.";
     }
 }
