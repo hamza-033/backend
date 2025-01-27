@@ -15,16 +15,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AddGuestInformationRequest {
 
-    @NotNull(message = "Rezervasyon Id boş geçilemez")
+    @NotNull(message = "Reservation Id cannot be empty")
     private int reservationId;
-    @NotBlank(message = "İsim alanı boş geçilemez")
+    @NotBlank(message = "Name field cannot be empty")
     private String name;
-    @NotBlank(message = "Soyisim alanı boş geçilemez")
+    @NotBlank(message = "Surname field cannot be empty")
     private String surname;
-    @NotNull(message = "Kimlik numarası boş geçilemez")
-    @Pattern(regexp = "\\d{10,11}", message = "Kimlik numarası 10 veya 11 hane şeklinde olmalıdır.Sayılardan oluşmalıdır")
+    @NotNull(message = "Identification number cannot be empty")
+    @Pattern(regexp = "\\d{10,11}", message = "Identification number must be 10 or 11 digits long and consist of numbers")
     private String identificationNumber;
-    @NotNull(message = "Cinsiyet alanı boş geçilemez")
+    @NotNull(message = "Gender field cannot be empty")
     private Gender gender;
 
 }

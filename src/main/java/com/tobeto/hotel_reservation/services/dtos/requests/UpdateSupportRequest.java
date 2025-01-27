@@ -13,10 +13,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateSupportRequest {
 
-    @NotNull(message = "Support Id Alanı Boş Olamaz")
+    @NotNull(message = "Support Id cannot be empty")
     private int id;
 
-    //@NotNull(message = "DemandStatus Boş Olamaz!")
+    //@NotNull(message = "DemandStatus cannot be empty!")
     //private DemandStatus demandStatus;
 
 }

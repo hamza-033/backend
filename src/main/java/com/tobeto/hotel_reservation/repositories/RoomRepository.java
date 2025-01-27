@@ -31,4 +31,3 @@ public interface RoomRepository extends JpaRepository<Room,Integer> {
 }
 
 
-//TODO:ŞEHRE GÖRE DE OTEL İÇİN PARAMETRE EKLENEBİLİR

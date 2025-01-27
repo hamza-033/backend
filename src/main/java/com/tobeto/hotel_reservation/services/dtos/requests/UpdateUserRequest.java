@@ -14,15 +14,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateUserRequest {
-    @NotNull(message = "İd Alanı Boş Olamaz!")
+    @NotNull(message = "Id field cannot be empty!")
     private int id;
-    @NotBlank(message = "Telefon numaranızı giriniz")
-    @Pattern(regexp = "\\d+", message = "Telefon Numarası Sadece Rakamlardan Oluşmalı")
+    @NotBlank(message = "Please enter your phone number")
+    @Pattern(regexp = "\\d+", message = "Phone number must consist of only digits")
     private String phoneNumber;
-    @NotBlank(message = "Email alanı boş geçilemez")
-    @Email(message = "Lütfen geçerli bir mail adresi giriniz")
+    @NotBlank(message = "Email field cannot be empty")
+    @Email(message = "Please enter a valid email address")
     private String email;
-    @NotNull(message = "Şifre alanı boş geçilemez")
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d).{6,}$", message = "Şifre en az 6 karakter uzunluğunda olmalı, en az bir büyük harf ve en az bir rakam içermelidir.")
+    @NotNull(message = "Password field cannot be empty")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d).{6,}$", message = "Password must be at least 6 characters long, contain at least one uppercase letter, and at least one digit.")
     private String password;
 }

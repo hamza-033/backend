@@ -20,25 +20,23 @@ public class RoomImageServiceImpl implements RoomImageService {
 
     @Override
     public void add(AddRoomImageRequest addRoomImageRequest) {
-        Optional<Room> room=roomService.findById(addRoomImageRequest.getRoomId());
+        Optional<Room> room = roomService.findById(addRoomImageRequest.getRoomId());
 
-        if(room.isPresent()){
-            RoomImage roomImage= RoomImageMapper.INSTANCE.roomImageFromAddRequest(addRoomImageRequest);
-            roomImage=roomImageRepository.save(roomImage);
-        }
-        else{
-            throw new RuntimeException("Böyle Bir Oda Bulunamadı");
+        if (room.isPresent()) {
+            RoomImage roomImage = RoomImageMapper.INSTANCE.roomImageFromAddRequest(addRoomImageRequest);
+            roomImage = roomImageRepository.save(roomImage);
+        } else {
+            throw new RuntimeException("Room not found.");
         }
     }
 
     @Override
     public void delete(int id) {
-        Optional<RoomImage> roomImage=roomImageRepository.findById(id);
-        if(roomImage.isPresent()){
+        Optional<RoomImage> roomImage = roomImageRepository.findById(id);
+        if (roomImage.isPresent()) {
             roomImageRepository.deleteById(id);
-        }
-        else{
-            throw new RuntimeException("Room Image Id Bulunamadı");
+        } else {
+            throw new RuntimeException("Room Image Id not found.");
         }
     }
 }

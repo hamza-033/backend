@@ -13,11 +13,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AddUserAddressRequest {
 
-    @NotNull(message = "User Id Alanı Boş Geçilemez")
+    @NotNull(message = "User Id field cannot be empty")
     private int userId;
-    @NotNull(message = "District Id Alanı Boş Geçilemez")
+    @NotNull(message = "District Id field cannot be empty")
     private int districtId;
-    @NotBlank(message = "Açık Adres Alanı Boş Geçilemez")
+    @NotBlank(message = "Address field cannot be empty")
     private String addressText;
 
 }

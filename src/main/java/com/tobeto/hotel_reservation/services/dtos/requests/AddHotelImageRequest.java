@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddHotelImageRequest {
-    @NotNull(message = "Hotel Id Boş Olamaz")
+    @NotNull(message = "Hotel Id cannot be empty")
     private int hotelId;
-    //@NotBlank(message = "ImageUrl Boş Olamaz")
+    //@NotBlank(message = "ImageUrl cannot be empty")
     private String imageUrl;
 }

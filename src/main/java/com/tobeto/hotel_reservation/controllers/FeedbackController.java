@@ -19,7 +19,7 @@ public class FeedbackController {
     @PostMapping("addfeedback")
     public String add(@Valid @RequestBody AddFeedbackRequest request){
         feedbackService.add(request);
-        return "Feedback Başarıyla Oluşturuldu";
+        return "Feedback Created Successfully";
     }
 
 

@@ -11,16 +11,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateHotelRequest {
-    @NotNull(message = "Hotel Id Alanı Boş Olamaz")
+    @NotNull(message = "Hotel Id field cannot be empty")
     private int id;
-    @NotBlank(message = "Hotel Adı Boş Olamaz")
+    @NotBlank(message = "Hotel name cannot be empty")
     private String name;
-    @NotBlank(message = "Telefon Numarası Alanı Boş Olamaz")
-    @Pattern(regexp = "\\d+", message = "Telefon Numarası Sadece Rakamlardan Oluşmalı")
+    @NotBlank(message = "Phone number field cannot be empty")
+    @Pattern(regexp = "\\d+", message = "Phone number must consist of digits only")
     private String phoneNumber;
-    @NotNull(message = "Hotel Star Boş Olamaz")
-    @Min(value = 1, message = "Değer 1'den Düşük Olamaz")
-    @Max(value = 5, message = "Değer 5'den Fazla Olamaz")
+    @NotNull(message = "Hotel star field cannot be empty")
+    @Min(value = 1, message = "Value cannot be less than 1")
+    @Max(value = 5, message = "Value cannot be more than 5")
     private int hotelStar;
 }
-

@@ -24,41 +24,41 @@ public class HotelAddressServiceImpl implements HotelAddressService {
 
     @Override
     public void add(AddHotelAddressRequest addHotelAddressRequest) {
-        Optional<Hotel> hotel=hotelService.findById(addHotelAddressRequest.getHotelId());
+        Optional<Hotel> hotel = hotelService.findById(addHotelAddressRequest.getHotelId());
         Optional<District> district = districtService.findById(addHotelAddressRequest.getDistrictId());
 
-        if(hotel.isEmpty()){
-            throw new RuntimeException("Böyle Bir Otel Bulunamadı");
+        if (hotel.isEmpty()) {
+            throw new RuntimeException("Hotel Not Found");
         }
-        if(district.isEmpty()){
-            throw new RuntimeException("Böyle Bir Adres Bulunamadı");
+        if (district.isEmpty()) {
+            throw new RuntimeException("District Not Found");
         }
 
-        HotelAddress hotelAddress= HotelAddressMapper.INSTANCE.hotelAddressFromAddRequest(addHotelAddressRequest);
-        hotelAddress=hotelAddressRepository.save(hotelAddress);
+        HotelAddress hotelAddress = HotelAddressMapper.INSTANCE.hotelAddressFromAddRequest(addHotelAddressRequest);
+        hotelAddress = hotelAddressRepository.save(hotelAddress);
     }
 
     @Override
     public void update(UpdateHotelAddressRequest updateHotelAddressRequest) {
-        Optional<HotelAddress> optionalHotelAddress=hotelAddressRepository.findById(updateHotelAddressRequest.getId());
+        Optional<HotelAddress> optionalHotelAddress = hotelAddressRepository.findById(updateHotelAddressRequest.getId());
         Optional<District> optionalDistrict = districtService.findById(updateHotelAddressRequest.getDistrictId());
-        if(optionalHotelAddress.isPresent()&&optionalDistrict.isPresent()){
-            HotelAddress hotelAddress=optionalHotelAddress.get();
+        if (optionalHotelAddress.isPresent() && optionalDistrict.isPresent()) {
+            HotelAddress hotelAddress = optionalHotelAddress.get();
             hotelAddress.setAddressText(updateHotelAddressRequest.getAddressText());
             hotelAddress.setDistrict(optionalDistrict.get());
             hotelAddressRepository.save(hotelAddress);
+        } else {
+            throw new RuntimeException("Hotel Address Id Or District Id Is Incorrect");
         }
-        else throw new RuntimeException("Hotel Adres Id Veya Adres Id Yanlış");
     }
 
     @Override
     public void delete(int id) {
-        Optional<HotelAddress> hotelAddress=hotelAddressRepository.findById(id);
-        if(hotelAddress.isPresent()){
+        Optional<HotelAddress> hotelAddress = hotelAddressRepository.findById(id);
+        if (hotelAddress.isPresent()) {
             hotelAddressRepository.deleteById(id);
-        }
-        else{
-            throw new RuntimeException("Böyle Bir Adres Id Bulunamadı");
+        } else {
+            throw new RuntimeException("Address Id Not Found");
         }
     }
 }

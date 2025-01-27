@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddPaymentRequest {
-    @NotNull(message = "ReservationId Boş Olamaz!")
+    @NotNull(message = "ReservationId cannot be empty!")
     private int reservationId;
-    @NotNull(message = "Payment Type Boş Olamaz!")
+    @NotNull(message = "Payment Type cannot be empty!")
     private PaymentType paymentType;
 }

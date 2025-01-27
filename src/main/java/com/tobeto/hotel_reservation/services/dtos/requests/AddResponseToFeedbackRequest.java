@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddResponseToFeedbackRequest {
-    @NotNull(message = "FeedbackId Boş Olamaz!")
+    @NotNull(message = "FeedbackId cannot be empty!")
     private int feedbackId;
-    @NotBlank(message = "Açıklama Alanı Boş Olamaz!")
+    @NotBlank(message = "Description field cannot be empty!")
     private String description;
 }

@@ -24,31 +24,29 @@ public class SupportServiceImpl implements SupportService {
 
     @Override
     public void add(AddSupportRequest addSupportRequest) {
-        Optional<User> optionalUser=userService.findById(addSupportRequest.getUserId());
-        if(optionalUser.isPresent()){
-            Support support= SupportMapper.INSTANCE.supportFromAddRequest(addSupportRequest);
-            User user=optionalUser.get();
+        Optional<User> optionalUser = userService.findById(addSupportRequest.getUserId());
+        if (optionalUser.isPresent()) {
+            Support support = SupportMapper.INSTANCE.supportFromAddRequest(addSupportRequest);
+            User user = optionalUser.get();
             support.setDemandStatus(DemandStatus.DELIVERED);
             supportRepository.save(support);
-            notificationService.createNotificationForSupport(user,"Destek Talebi İletildi.",NotificationStatus.NEWSUPPORTDEMAND);
-        }
-        else{
-            throw new RuntimeException("Böyle Bir Kullanıcı Id Yok");
+            notificationService.createNotificationForSupport(user, "Support Request Submitted.", NotificationStatus.NEWSUPPORTDEMAND);
+        } else {
+            throw new RuntimeException("No user found with this User Id.");
         }
     }
 
     @Override
     public void update(UpdateSupportRequest updateSupportRequest) {
-        Optional<Support> optionalSupport=supportRepository.findById(updateSupportRequest.getId());
-        if(optionalSupport.isPresent()){
-            Support support=optionalSupport.get();
-            User user=support.getUser();
+        Optional<Support> optionalSupport = supportRepository.findById(updateSupportRequest.getId());
+        if (optionalSupport.isPresent()) {
+            Support support = optionalSupport.get();
+            User user = support.getUser();
             support.setDemandStatus(DemandStatus.CLOSED);
             supportRepository.save(support);
-            notificationService.createNotificationForSupport(user,"Destek Talebi Kapatıldı",NotificationStatus.SUPPORTDEMANDCLOSED);
-        }
-        else {
-            throw new RuntimeException("Böyle Bir Support Id Bulunamadı!");
+            notificationService.createNotificationForSupport(user, "Support Request Closed", NotificationStatus.SUPPORTDEMANDCLOSED);
+        } else {
+            throw new RuntimeException("Support Id not found.");
         }
     }
 
@@ -57,4 +55,3 @@ public class SupportServiceImpl implements SupportService {
         return supportRepository.findByUserId(userId);
     }
 }
-

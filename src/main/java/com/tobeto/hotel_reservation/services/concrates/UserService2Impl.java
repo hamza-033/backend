@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService2Impl implements UserService2 {
     private final UserRepository userRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("Kullanıcı Bulunamadı"));
+        return userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

@@ -16,15 +16,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddReservationRequest {
-    @NotNull(message = "User Id Boş Olamaz!")
+    @NotNull(message = "User Id cannot be empty!")
     private int userId;
-    @NotNull(message = "Room Id Boş Olamaz!")
+    @NotNull(message = "Room Id cannot be empty!")
     private int roomId;
-    @NotNull(message = "Enterance Day Boş Olamaz")
-    @FutureOrPresent(message = "Gelecek tarih ya da şimdiki tarih olmalıdır.")
+    @NotNull(message = "Entrance Day cannot be empty")
+    @FutureOrPresent(message = "Must be a future or present date.")
     private LocalDate enteranceDay;
-    @NotNull(message = "Release Day Boş Olamaz")
-    @Future(message = "Gelecek tarih olmalıdır.")
+    @NotNull(message = "Release Day cannot be empty")
+    @Future(message = "Must be a future date.")
     private LocalDate releaseDay;
 }
-

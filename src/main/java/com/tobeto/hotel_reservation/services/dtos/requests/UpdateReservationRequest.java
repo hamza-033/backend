@@ -13,10 +13,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateReservationRequest {
 
-    @NotNull(message = "Rezervasyon Id Boş Olamaz!")
+    @NotNull(message = "Reservation Id cannot be empty!")
     private int id;
 
-    @NotNull(message = "ReservationStatus Boş Olamaz!")
+    @NotNull(message = "ReservationStatus cannot be empty!")
     private ReservationStatus reservationStatus;
 
 }

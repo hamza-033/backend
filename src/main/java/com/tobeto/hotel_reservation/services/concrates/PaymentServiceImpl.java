@@ -26,27 +26,26 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void add(AddPaymentRequest addPaymentRequest) {
         Optional<Reservation> optionalReservation = reservationService.findById(addPaymentRequest.getReservationId());
-        Optional<Payment> optionalPayment=paymentRepository.findByReservationId(addPaymentRequest.getReservationId());
+        Optional<Payment> optionalPayment = paymentRepository.findByReservationId(addPaymentRequest.getReservationId());
 
-        if(optionalPayment.isEmpty()){
+        if (optionalPayment.isEmpty()) {
             if (optionalReservation.isPresent()) {
                 Payment payment = new Payment();
-                Reservation reservation=optionalReservation.get();
+                Reservation reservation = optionalReservation.get();
                 payment.setReservation(optionalReservation.get());
                 payment.setPaymentTotal(optionalReservation.get().getTotalAmount());
                 payment.setPaymentType(addPaymentRequest.getPaymentType());
                 payment.setDate(LocalDate.now());
                 optionalReservation.get().setReservationStatus(ReservationStatus.CONFIRMED);
                 paymentRepository.save(payment);
-                //Yeni rezervasyon için bildirim oluşturma
-                notificationService.createNotification(reservation, "Yeni rezervasyon oluşturuldu.Onaylandı", NotificationStatus.CONFIRMEDRESERVATION);
+                // Create a notification for the new reservation
+                notificationService.createNotification(reservation, "A new reservation has been created. Confirmed.", NotificationStatus.CONFIRMEDRESERVATION);
 
             } else {
-                throw new RuntimeException("Böyle Bir Rezervasyon Id Bulunamadı!");
+                throw new RuntimeException("Reservation ID not found!");
             }
-        }
-        else {
-            throw new RuntimeException("Bu rezervasyona ait ödeme zaten yapılmış!");
+        } else {
+            throw new RuntimeException("Payment for this reservation has already been made!");
         }
     }
 }

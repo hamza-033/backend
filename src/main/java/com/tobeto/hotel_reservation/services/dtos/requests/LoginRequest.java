@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 public class LoginRequest {
 
-    @NotBlank(message = "Email boş olamaz.")
+    @NotBlank(message = "Email cannot be empty.")
     private String email;
-    @NotBlank(message = "Şifre Boş Olamaz.")
+    @NotBlank(message = "Password cannot be empty.")
     private String password;
 
 }

@@ -20,13 +20,14 @@ import java.util.Optional;
 public class HotelImageServiceImpl implements HotelImageService {
     private final HotelImageRepository hotelImageRepository;
     private final HotelService hotelService;
+
     @Override
     public void add(AddHotelImageRequest addHotelImageRequest, MultipartFile file) {
         Optional<Hotel> hotel = hotelService.findById(addHotelImageRequest.getHotelId());
         if (hotel.isPresent()) {
             HotelImage hotelImage = HotelImageMapper.INSTANCE.hotelImageFromAddRequest(addHotelImageRequest);
 
-            String directoryPath = "C:\\Users\\Ertunç\\Desktop\\Java&Angular FullStack\\Otel Rezervasyon App\\Data\\07-06-2024(user_adres)\\hotel_reservation\\images\\hotelimages\\";
+            String directoryPath = "C:\\Users\\Ertunç\\Desktop\\Java&Angular FullStack\\Hotel Reservation App\\Data\\07-06-2024(user_address)\\hotel_reservation\\images\\hotelimages\\";
             String fileName = file.getOriginalFilename();
             String filePath = directoryPath + fileName;
 
@@ -40,21 +41,20 @@ public class HotelImageServiceImpl implements HotelImageService {
                 hotelImage.setImageUrl(filePath);
                 hotelImageRepository.save(hotelImage);
             } catch (IOException e) {
-                throw new RuntimeException("Dosya yükleme hatası", e);
+                throw new RuntimeException("File upload error", e);
             }
         } else {
-            throw new RuntimeException("Böyle Bir Hotel Bulunamadı");
+            throw new RuntimeException("Hotel Not Found");
         }
     }
 
     @Override
     public void delete(int id) {
-        Optional<HotelImage> hotelImage=hotelImageRepository.findById(id);
-        if(hotelImage.isPresent()){
+        Optional<HotelImage> hotelImage = hotelImageRepository.findById(id);
+        if (hotelImage.isPresent()) {
             hotelImageRepository.deleteById(id);
-        }
-        else{
-            throw new RuntimeException("Böyle bir Image Id Bulunamadı");
+        } else {
+            throw new RuntimeException("Image Id Not Found");
         }
     }
 }

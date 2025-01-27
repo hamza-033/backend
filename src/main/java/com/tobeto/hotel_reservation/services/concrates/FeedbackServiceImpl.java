@@ -27,27 +27,24 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public void add(AddFeedbackRequest addFeedbackRequest) {
-        Optional<Reservation> optionalReservation=reservationService.findById(addFeedbackRequest.getReservationId());
+        Optional<Reservation> optionalReservation = reservationService.findById(addFeedbackRequest.getReservationId());
 
-        //Kendi tablosu içerisinde bu rezervasyon id var mı yok mu ona bakıyor!
-        Optional<Feedback> optionalFeedback=feedbackRepository.findByReservationId(addFeedbackRequest.getReservationId());
+        Optional<Feedback> optionalFeedback = feedbackRepository.findByReservationId(addFeedbackRequest.getReservationId());
 
-        if(optionalFeedback.isEmpty()){
+        if (optionalFeedback.isEmpty()) {
 
-            if(optionalReservation.isPresent()){
-                Feedback feedback= FeedbackMapper.INSTANCE.feedbackFromAddRequest(addFeedbackRequest);
-                Reservation reservation=optionalReservation.get();
+            if (optionalReservation.isPresent()) {
+                Feedback feedback = FeedbackMapper.INSTANCE.feedbackFromAddRequest(addFeedbackRequest);
+                Reservation reservation = optionalReservation.get();
                 feedback.setDate(LocalDateTime.now().withNano(0));
-                notificationService.createNotification(reservation,"Yeni Yorum Bildirimi", NotificationStatus.NEWFEEDBACK);
+                notificationService.createNotification(reservation, "New Comment Notification", NotificationStatus.NEWFEEDBACK);
                 feedbackRepository.save(feedback);
-            }
-            else{
-                throw new RuntimeException("Rezervasyon Id Bulunamadı!");
+            } else {
+                throw new RuntimeException("Reservation Id Not Found!");
             }
 
-        }
-        else{
-            throw new RuntimeException("Bu rezervasyon id'sine ait zaten bir yorum var!");
+        } else {
+            throw new RuntimeException("A comment already exists for this reservation id!");
         }
 
     }

@@ -21,34 +21,32 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final HotelService hotelService;
 
-    //TODO:ODAYI SADECE MANAGER EKLEYEBİLECEĞİ İÇİN SECURİTY KISMINDA ÇÖZÜLECEK!
+    //TODO: The room can only be added by the manager, so the security part will be resolved.
     @Override
     public void add(AddRoomRequest addRoomRequest) {
-        Optional<Hotel> hotel=hotelService.findById(addRoomRequest.getHotelId());
+        Optional<Hotel> hotel = hotelService.findById(addRoomRequest.getHotelId());
 
-        if(hotel.isPresent()){
-            Room room= RoomMapper.INSTANCE.roomFromAddRequest(addRoomRequest);
-            room=roomRepository.save(room);
+        if (hotel.isPresent()) {
+            Room room = RoomMapper.INSTANCE.roomFromAddRequest(addRoomRequest);
+            room = roomRepository.save(room);
+        } else {
+            throw new RuntimeException("Hotel not found.");
         }
-        else{
-            throw new RuntimeException("Böyle Bir Otel Bulunamadı"); }
     }
-
 
     @Override
     public void update(UpdateRoomRequest updateRoomRequest) {
-        Optional<Room> optionalRoom=roomRepository.findById(updateRoomRequest.getId());
+        Optional<Room> optionalRoom = roomRepository.findById(updateRoomRequest.getId());
 
-        if (optionalRoom.isPresent()){
-            Room room=optionalRoom.get();
+        if (optionalRoom.isPresent()) {
+            Room room = optionalRoom.get();
             room.setRoomType(updateRoomRequest.getRoomType());
             room.setCapacity(updateRoomRequest.getCapacity());
             room.setPrice(updateRoomRequest.getPrice());
             room.setRoomStatus(updateRoomRequest.getRoomStatus());
             roomRepository.save(room);
-        }
-        else{
-            throw new RuntimeException("Böyle Bir Oda Id Yoktur.");
+        } else {
+            throw new RuntimeException("Room ID not found.");
         }
     }
 
@@ -58,14 +56,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Object[]> findAvailableRooms(LocalDate enteranceDay, LocalDate releaseDay, String roomType,Integer capacity,String location) {
-        if (releaseDay.isBefore(enteranceDay)) {
-            throw new IllegalArgumentException("Çıkış tarihi giriş tarihinden önce olamaz.");
+    public List<Object[]> findAvailableRooms(LocalDate entranceDay, LocalDate releaseDay, String roomType, Integer capacity, String location) {
+        if (releaseDay.isBefore(entranceDay)) {
+            throw new IllegalArgumentException("Release date cannot be before the entrance date.");
         }
-        List<Object[]> availableRooms = roomRepository.findAvailableRooms(enteranceDay, releaseDay, roomType,capacity,location);
+        List<Object[]> availableRooms = roomRepository.findAvailableRooms(entranceDay, releaseDay, roomType, capacity, location);
         if (availableRooms.isEmpty()) {
-            throw new RuntimeException("Bu tarihlerde boş oda yoktur.");
+            throw new RuntimeException("No available rooms on these dates.");
         }
-       return availableRooms;
+        return availableRooms;
     }
 }

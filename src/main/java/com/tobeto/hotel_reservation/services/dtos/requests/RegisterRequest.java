@@ -16,25 +16,24 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
-    @NotBlank(message = "İsim alanı boş geçilemez")
+    @NotBlank(message = "First name cannot be empty")
     private String name;
-    @NotBlank(message = "Soyisim alanı boş geçilemez")
+    @NotBlank(message = "Last name cannot be empty")
     private String surname;
-    @NotNull(message = "Cinsiyet alanı boş geçilemez")
+    @NotNull(message = "Gender field cannot be empty")
     private Gender gender;
-    @NotBlank(message = "Telefon numaranızı giriniz")
-    @Pattern(regexp = "\\d+", message = "Telefon Numarası Sadece Rakamlardan Oluşmalı")
+    @NotBlank(message = "Please enter your phone number")
+    @Pattern(regexp = "\\d+", message = "Phone number must consist of numbers only")
     private String phoneNumber;
-    @NotNull(message = "Kimlik numarası boş geçilemez")
-    @Pattern(regexp = "\\d{10,11}", message = "Kimlik numarası 10 veya 11 hane şeklinde olmalıdır.Sayılardan oluşmalıdır")
+    @NotNull(message = "Identification number cannot be empty")
+    @Pattern(regexp = "\\d{10,11}", message = "Identification number must be 10 or 11 digits long and must consist of numbers only")
     private String identificationNumber;
-    @NotBlank(message = "Email alanı boş geçilemez")
-    @Email(message = "Lütfen geçerli bir mail adresi giriniz")
+    @NotBlank(message = "Email field cannot be empty")
+    @Email(message = "Please enter a valid email address")
     private String email;
-    @NotNull(message = "Şifre alanı boş geçilemez")
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d).{6,}$", message = "Şifre en az 6 karakter uzunluğunda olmalı, en az bir büyük harf ve en az bir rakam içermelidir.")
+    @NotNull(message = "Password field cannot be empty")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d).{6,}$", message = "Password must be at least 6 characters long and contain at least one uppercase letter and one number")
     private String password;
-    @NotNull(message = "Kullanıcı rolü alanı boş geçilemez")
+    @NotNull(message = "User role field cannot be empty")
     private Role role;
-
 }

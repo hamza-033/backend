@@ -12,10 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddRoomImageRequest {
-    @NotNull(message = "Room Id Boş Geçilemez")
+    @NotNull(message = "Room Id cannot be empty")
     private int roomId;
 
-    @NotBlank(message = "Room Image Url Boş Olamaz")
+    @NotBlank(message = "Room Image URL cannot be empty")
     private String imageUrl;
 
 }

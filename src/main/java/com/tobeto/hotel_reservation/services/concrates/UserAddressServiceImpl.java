@@ -26,45 +26,42 @@ public class UserAddressServiceImpl implements UserAddressService {
     @Override
     public void add(AddUserAddressRequest addUserAddressRequest) {
         Optional<User> user = userService.findById(addUserAddressRequest.getUserId());
-        Optional<District> district= districtService.findById(addUserAddressRequest.getDistrictId());
+        Optional<District> district = districtService.findById(addUserAddressRequest.getDistrictId());
 
-        if(user.isEmpty()){
-            throw new RuntimeException("Böyle bir Kullanıcı bulunamadı");
+        if (user.isEmpty()) {
+            throw new RuntimeException("No user found with this User Id.");
         }
 
-        if(district.isEmpty()){
-            throw  new RuntimeException("Böyle bir ilçe id bulunamadı");
+        if (district.isEmpty()) {
+            throw new RuntimeException("No district found with this District Id.");
         }
+
         UserAddress userAddress = UserAddressMapper.INSTANCE.userAddressFromAddRequest(addUserAddressRequest);
         userAddressRepository.save(userAddress);
-
-
     }
 
     @Override
     public void update(UpdateUserAddressRequest updateUserAddressRequest) {
-        Optional<UserAddress> optionalUserAddress=userAddressRepository.findById(updateUserAddressRequest.getId());
-        Optional<District> optionalDistrict=districtService.findById(updateUserAddressRequest.getDistrict());
+        Optional<UserAddress> optionalUserAddress = userAddressRepository.findById(updateUserAddressRequest.getId());
+        Optional<District> optionalDistrict = districtService.findById(updateUserAddressRequest.getDistrict());
 
-        if(optionalUserAddress.isPresent()&&optionalDistrict.isPresent()){
-            UserAddress userAddress=optionalUserAddress.get();
+        if (optionalUserAddress.isPresent() && optionalDistrict.isPresent()) {
+            UserAddress userAddress = optionalUserAddress.get();
             userAddress.setAddressText(updateUserAddressRequest.getAddressText());
             userAddress.setDistrict(optionalDistrict.get());
             userAddressRepository.save(userAddress);
-        }
-        else{
-            throw new RuntimeException("Kullanıcı Adresi Id'si Veya İlçe Adresi Bulunamadı");
+        } else {
+            throw new RuntimeException("User Address Id or District Address not found.");
         }
     }
 
     @Override
     public void delete(int id) {
-        Optional<UserAddress> userAddress=userAddressRepository.findById(id);
-        if(userAddress.isPresent()){
+        Optional<UserAddress> userAddress = userAddressRepository.findById(id);
+        if (userAddress.isPresent()) {
             userAddressRepository.deleteById(id);
-        }
-        else {
-            throw new RuntimeException("Böyle Bir Kullanıcı Adresi Bulunamadı");
+        } else {
+            throw new RuntimeException("No user address found with this Id.");
         }
     }
 }

@@ -12,21 +12,21 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddRoomRequest {
-    @NotNull(message = "Hotel Id Boş Olamaz")
+    @NotNull(message = "Hotel Id cannot be empty")
     private int hotelId;
 
-    @NotBlank(message = "Oda Tipi Boş Olamaz")
+    @NotBlank(message = "Room Type cannot be empty")
     private String roomType;
 
-    @NotNull(message = "Lütfen Kapesite Giriniz")
-    @Min(value = 1, message = "Kapasite 1 kişiden düşük olamaz")
-    @Max(value = 8, message = "Kapasite 8 Kişiden fazla olamaz")
+    @NotNull(message = "Please enter the capacity")
+    @Min(value = 1, message = "Capacity cannot be less than 1 person")
+    @Max(value = 8, message = "Capacity cannot exceed 8 people")
     private int capacity;
 
-    @NotNull(message = "Fiyat Alanı Boş Geçilemez")
+    @NotNull(message = "Price field cannot be empty")
     @Positive
     private double price;
 
-    @NotNull(message = "Oda Durumu Boş Olamaz")
+    @NotNull(message = "Room status cannot be empty")
     private RoomStatus roomStatus;
 }

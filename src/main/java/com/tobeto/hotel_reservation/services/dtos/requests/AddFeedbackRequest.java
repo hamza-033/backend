@@ -12,10 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddFeedbackRequest {
-    @NotNull(message = "Reservation Id Boş Olamaz")
+    @NotNull(message = "Reservation Id cannot be empty")
     private int reservationId;
-    @NotNull(message = "Rating Boş Olamaz")
+    @NotNull(message = "Rating cannot be empty")
     private int rating;
-    @NotBlank(message = "Comment Boş Olamaz")
+    @NotBlank(message = "Comment cannot be empty")
     private String comment;
 }

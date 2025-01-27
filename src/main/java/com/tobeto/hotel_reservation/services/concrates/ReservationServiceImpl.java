@@ -26,11 +26,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public AddReservationResponse add(AddReservationRequest addReservationRequest) {
-        Optional<User> user=userService.findById(addReservationRequest.getUserId());
-        Optional<Room> room=roomService.findById(addReservationRequest.getRoomId());
+        Optional<User> user = userService.findById(addReservationRequest.getUserId());
+        Optional<Room> room = roomService.findById(addReservationRequest.getRoomId());
 
-        if(user.isPresent()&&room.isPresent()){
-            //Tarih Kontrolü
+        if (user.isPresent() && room.isPresent()) {
+
             List<Reservation> conflictingReservations = reservationRepository.findConflictingReservations(
                     addReservationRequest.getRoomId(),
                     addReservationRequest.getEnteranceDay(),
@@ -38,67 +38,64 @@ public class ReservationServiceImpl implements ReservationService {
             );
 
             if (!conflictingReservations.isEmpty()) {
-                throw new RuntimeException("Bu tarihlerde bu oda için başka bir rezervasyon bulunmaktadır.");
+                throw new RuntimeException("There is another reservation for this room on these dates.");
             }
 
-            Reservation reservation= ReservationMapper.INSTANCE.reservationFromAddRequest(addReservationRequest);
+            Reservation reservation = ReservationMapper.INSTANCE.reservationFromAddRequest(addReservationRequest);
             reservation.setReservationStatus(ReservationStatus.PENDING);
             reservation.setRoom(room.get());
             calculateTotalAmount(reservation);
-            reservation=reservationRepository.save(reservation);
-            AddReservationResponse response=ReservationMapper.INSTANCE.addResponseFromReservation(reservation);
-            //Yeni rezervasyon için bildirim oluşturma
-            notificationService.createNotification(reservation, "Yeni rezervasyon oluşturuldu.Onay Bekliyor.", NotificationStatus.PENDINGRESERVATION);
+            reservation = reservationRepository.save(reservation);
+            AddReservationResponse response = ReservationMapper.INSTANCE.addResponseFromReservation(reservation);
+            //Create notification for new reservation
+            notificationService.createNotification(reservation, "New reservation created. Waiting for confirmation.", NotificationStatus.PENDINGRESERVATION);
             return response;
-        }
-        else {
-        throw new RuntimeException("UserId Veya RoomId Bulunamadı.");
+        } else {
+            throw new RuntimeException("UserId or RoomId not found.");
         }
     }
 
     @Override
     public void update(UpdateReservationRequest updateReservationRequest) {
-        Optional<Reservation> optionalReservation=reservationRepository.findById(updateReservationRequest.getId());
-        if(optionalReservation.isPresent()){
-            Reservation reservation=optionalReservation.get();
+        Optional<Reservation> optionalReservation = reservationRepository.findById(updateReservationRequest.getId());
+        if (optionalReservation.isPresent()) {
+            Reservation reservation = optionalReservation.get();
             ReservationStatus oldStatus = reservation.getReservationStatus();
             reservation.setReservationStatus(updateReservationRequest.getReservationStatus());
             reservationRepository.save(reservation);
-            // Durum değişikliği için bildirim oluşturma
+            //Create notification for status change
             if (oldStatus != reservation.getReservationStatus()) {
-                String text = "Rezervasyon durumu değişti: " + reservation.getReservationStatus().name();
+                String text = "Reservation status changed: " + reservation.getReservationStatus().name();
                 NotificationStatus notificationStatus = getNotificationStatusFromReservationStatus(reservation.getReservationStatus());
-                 notificationService.createNotification(reservation, text, notificationStatus);
+                notificationService.createNotification(reservation, text, notificationStatus);
             }
-        }
-        else{
-            throw new RuntimeException("Böyle Bir Rezervasyon Id Bulunamadı!");
+        } else {
+            throw new RuntimeException("Reservation Id not found!");
         }
     }
 
-    //TODO:ODA AVAILIBLE NOTAVAILIBLE DURUMU KONUŞULACAK
+    //TODO: ROOM AVAILABILITY STATUS TO BE DISCUSSED
     @Override
     public Optional<Reservation> findById(int id) {
         return reservationRepository.findById(id);
     }
 
-
-
-    private void calculateTotalAmount(Reservation reservation){
-        LocalDate enteranceDay=reservation.getEnteranceDay();
-        LocalDate releaseDay=reservation.getReleaseDay();
-        double roomPrice=reservation.getRoom().getPrice();
+    private void calculateTotalAmount(Reservation reservation) {
+        LocalDate enteranceDay = reservation.getEnteranceDay();
+        LocalDate releaseDay = reservation.getReleaseDay();
+        double roomPrice = reservation.getRoom().getPrice();
 
         int comparisonResult = releaseDay.compareTo(enteranceDay);
-        if (comparisonResult>0){
+        if (comparisonResult > 0) {
             long difference = ChronoUnit.DAYS.between(enteranceDay, releaseDay);
-            double totalAmount=difference*roomPrice;
+            double totalAmount = difference * roomPrice;
             reservation.setTotalAmount(totalAmount);
-        }
-        else{throw new RuntimeException("Çıkış Tarihi Giriş Tarihinden Önce Olamaz!");
+        } else {
+            throw new RuntimeException("Exit date cannot be before the entrance date!");
         }
     }
-    //TODO:REZERVASYON OLUŞTURMA TARİHİ EKLENEBİLİR.
+
+    //TODO: CREATION DATE FOR RESERVATION CAN BE ADDED.
 
     private NotificationStatus getNotificationStatusFromReservationStatus(ReservationStatus reservationStatus) {
         switch (reservationStatus) {
@@ -109,12 +106,13 @@ public class ReservationServiceImpl implements ReservationService {
             case CANCELED:
                 return NotificationStatus.CANCELEDRESERVATION;
             default:
-                throw new IllegalArgumentException("Bilinmeyen rezervasyon durumu: " + reservationStatus);
+                throw new IllegalArgumentException("Unknown reservation status: " + reservationStatus);
         }
     }
+
     @Override
     public List<ListReservationResponse> getAll() {
-        List<Reservation> reservations=reservationRepository.findAll();
+        List<Reservation> reservations = reservationRepository.findAll();
         return reservations.stream()
                 .map(reservation -> ReservationMapper.INSTANCE.listResponseFromReservation(reservation))
                 .toList();
@@ -123,7 +121,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ListReservationResponse getById(int reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new RuntimeException("Rezervasyon Bulunamadı"));
+                .orElseThrow(() -> new RuntimeException("Reservation not found"));
         return ReservationMapper.INSTANCE.listResponseFromReservation(reservation);
     }
 
@@ -131,7 +129,7 @@ public class ReservationServiceImpl implements ReservationService {
     public List<Object[]> getReservationsByUserId(int userId) {
         List<Object[]> reservations = reservationRepository.findReservationsByUserId(userId);
         if (reservations.isEmpty()) {
-            throw new RuntimeException("Bu kullanıcıya ait rezervasyon bulunamadı.");
+            throw new RuntimeException("No reservations found for this user.");
         }
         return reservations;
     }
@@ -140,6 +138,4 @@ public class ReservationServiceImpl implements ReservationService {
     public List<Object[]> findReservationsByHotelId(int hotelId) {
         return reservationRepository.findReservationsByHotelId(hotelId);
     }
-
 }
-

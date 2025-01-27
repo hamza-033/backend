@@ -12,10 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateUserAddressRequest {
-    @NotNull(message = "Id alanı boş geçilemez.")
+    @NotNull(message = "Id field cannot be empty.")
     private int id;
-    @NotBlank(message = "Açık Adres Boş Olamaz")
+    @NotBlank(message = "Address Text cannot be empty")
     private String addressText;
-    @NotNull(message = "District Id Alanı Boş Olamaz")
+    @NotNull(message = "District Id field cannot be empty")
     private int district;
 }

@@ -40,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication=
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword()));
         if(!authentication.isAuthenticated()){
-            throw new RuntimeException("Eposta veya Password Hatalı");
+            throw new RuntimeException("Email or Password is Incorrect");
         }
         Map<String,Object> extraClaims=new HashMap<>();
         extraClaims.put("UserId",user.getId());

@@ -21,21 +21,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(UpdateUserRequest updateUserRequest) {
-        // Öncelikle mevcut kullanıcıyı veritabanından al
+        // First, fetch the existing user from the database
         Optional<User> optionalUser = userRepository.findById(updateUserRequest.getId());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
-            // Güncellenmesi gereken alanları isteğe göre güncelle
             user.setPhoneNumber(updateUserRequest.getPhoneNumber());
             user.setEmail(updateUserRequest.getEmail());
             user.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
 
-            // Kullanıcıyı veritabanına kaydet
             userRepository.save(user);
         } else {
-            // Kullanıcı bulunamadığında ne yapılacağına dair kod
-            throw new RuntimeException("Kullanıcı bulunamadı");
+            throw new RuntimeException("User not found");
         }
     }
 
@@ -50,4 +47,4 @@ public class UserServiceImpl implements UserService {
     }
 
 }
-//TODO Kullanıcı sadece 1 veriyi güncellemek isterse farklı bir yapı ekleyebiliriz!
+//TODO: If a user only wants to update one field, we might need to implement a different approach!

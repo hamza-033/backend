@@ -14,7 +14,7 @@ public interface ReservationMapper {
 
     @Mapping(source = "userId",target = "user.id")
     @Mapping(source = "roomId",target = "room.id")
-    @Mapping(target = "totalAmount", ignore = true) // totalAmount'u göz ardı et
+    @Mapping(target = "totalAmount", ignore = true)
     Reservation reservationFromAddRequest(AddReservationRequest addReservationRequest);
 
 

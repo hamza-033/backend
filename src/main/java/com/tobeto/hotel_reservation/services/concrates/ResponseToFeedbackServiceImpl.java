@@ -26,24 +26,21 @@ public class ResponseToFeedbackServiceImpl implements ResponseToFeedbackService 
 
     @Override
     public void add(AddResponseToFeedbackRequest addResponseToFeedbackRequest) {
-        Optional<Feedback> optionalFeedback=feedbackService.findById(addResponseToFeedbackRequest.getFeedbackId());
-        Optional<ResponseToFeedback> optionalResponseToFeedback=responseToFeedbackRepository.findByFeedbackId(addResponseToFeedbackRequest.getFeedbackId());
-        if(optionalResponseToFeedback.isEmpty()){
-            if(optionalFeedback.isPresent()){
-                ResponseToFeedback responseToFeedback= ResponseToFeedbackMapper.INSTANCE.responseToFeedbackFromAddRequest(addResponseToFeedbackRequest);
-                Reservation reservation=optionalFeedback.get().getReservation();
+        Optional<Feedback> optionalFeedback = feedbackService.findById(addResponseToFeedbackRequest.getFeedbackId());
+        Optional<ResponseToFeedback> optionalResponseToFeedback = responseToFeedbackRepository.findByFeedbackId(addResponseToFeedbackRequest.getFeedbackId());
+
+        if (optionalResponseToFeedback.isEmpty()) {
+            if (optionalFeedback.isPresent()) {
+                ResponseToFeedback responseToFeedback = ResponseToFeedbackMapper.INSTANCE.responseToFeedbackFromAddRequest(addResponseToFeedbackRequest);
+                Reservation reservation = optionalFeedback.get().getReservation();
                 responseToFeedback.setDate(LocalDateTime.now().withNano(0));
-                notificationService.createNotification(reservation,"Yeni Yorum Cevabı", NotificationStatus.NEWRESPONSEFEEDBACK);
+                notificationService.createNotification(reservation, "New Comment Response", NotificationStatus.NEWRESPONSEFEEDBACK);
                 responseToFeedbackRepository.save(responseToFeedback);
+            } else {
+                throw new RuntimeException("FeedbackId not found.");
             }
-            else {
-                throw new RuntimeException("Böyle Bir FeedbackId Bulunamadı.");
-            }
+        } else {
+            throw new RuntimeException("A response already exists for this feedback!");
         }
-
-        else{
-            throw new RuntimeException("Bu Feedback'e ait response zaten mevcut!");
-        }
-
     }
 }

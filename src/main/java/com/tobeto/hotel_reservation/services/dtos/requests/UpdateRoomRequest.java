@@ -15,16 +15,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateRoomRequest {
-    @NotNull(message = "Room Id Alanı Boş Olamaz")
+    @NotNull(message = "Room Id cannot be empty")
     private int id;
-    @NotBlank(message = "Oda Tipi Adı Boş Olamaz")
+    @NotBlank(message = "Room Type cannot be empty")
     private String roomType;
-    @NotNull(message = "Kapesite Alanı Boş Bırakılamaz")
-    @Min(value = 1, message = "Kapasite 1 kişiden düşük olamaz")
-    @Max(value = 8, message = "Kapasite 8 Kişiden fazla olamaz")
+    @NotNull(message = "Capacity cannot be empty")
+    @Min(value = 1, message = "Capacity cannot be less than 1 person")
+    @Max(value = 8, message = "Capacity cannot exceed 8 people")
     private int capacity;
-    @NotNull(message = "Fiyat Alanı Boş Bırakılamaz")
+    @NotNull(message = "Price cannot be empty")
     private double price;
-    @NotNull(message = "Room Status Boş Olamaz")
+    @NotNull(message = "Room Status cannot be empty")
     private RoomStatus roomStatus;
 }
